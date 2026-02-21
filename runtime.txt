@@ -1,0 +1,13 @@
+
+# Afriflow/backend/runtime.txt
+
+# ============================================
+# Version Python pour Render (et autres déploiements)
+# Doit correspondre à votre version locale
+# ============================================
+python-3.11.14
+
+# Autres versions possibles :
+# python-3.12.8
+# python-3.10.16
+# python-3.9.21

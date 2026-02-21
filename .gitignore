@@ -1,0 +1,150 @@
+
+# Afriflow/backend/.gitignore
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+.venv
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+
+# ============================================
+# Base de données
+# ============================================
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.rdb
+*.aof
+
+# ============================================
+# Tests et couverture de code
+# ============================================
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.pytest_cache/
+test.db
+test.sqlite3
+.hypothesis/
+prof/
+
+# ============================================
+# IDE et éditeurs
+# ============================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-*
+.project
+.pydevproject
+.settings/
+*.sublime-workspace
+
+# ============================================
+# Logs et fichiers temporaires
+# ============================================
+logs/
+*.log
+*.pid
+*.seed
+*.pid.lock
+/data/
+!/data/.gitkeep
+
+# ============================================
+# Rapports et exports
+# ============================================
+/reports/
+/invoices/
+/backups/
+*.pdf
+*.xlsx
+*.csv
+*.xls
+
+# ============================================
+# Environnement et secrets
+# ============================================
+.env
+.env.local
+.env.*.local
+.secrets
+*.pem
+*.key
+*.crt
+
+# ============================================
+# Dépendances et builds
+# ============================================
+*.egg-info/
+dist/
+build/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg
+MANIFEST
+*.manifest
+*.spec
+
+# ============================================
+# Docker
+# ============================================
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+.docker/
+
+# ============================================
+# Cache et métadonnées
+# ============================================
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ============================================
+# Fichiers spécifiques au projet
+# ============================================
+# Gardez les fichiers de configuration importants
+!render.yaml
+!pytest.ini
+!runtime.txt
+!requirements.txt
+!.env.example
