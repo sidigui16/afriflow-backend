@@ -15,70 +15,51 @@ services:
   - type: web
     name: afriflow-api
     runtime: python
-    region: frankfurt  # Proche de l'Afrique de l'Ouest (latence réduite)
-    plan: starter      # ou: free, pro, pro-plus, starter
+    region: frankfurt
+    plan: starter
     
-    # Configuration du build
     buildCommand: |
       pip install --upgrade pip
       pip install -r requirements.txt
-      python scripts/seed_data.py  # Optionnel: données de test
+      python scripts/seed_data.py
     
-    # Commande de démarrage
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 4
     
-    # Variables d'environnement
     envVars:
-      # === Base de données ===
       - key: DATABASE_URL
         fromDatabase:
           name: afriflow-db
           property: connectionString
-      
-      # === Sécurité JWT ===
       - key: SECRET_KEY
         generateValue: true
       - key: ALGORITHM
         value: HS256
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
-        value: 1440  # 24 heures
-      
-      # === Environnement ===
+        value: 1440
       - key: ENVIRONMENT
         value: production
       - key: DEBUG
         value: false
-      
-      # === CORS (Frontend) ===
       - key: ALLOWED_ORIGINS
         value: https://app.afriflow.com,https://www.afriflow.com,https://afriflow.com
-      
-      # === Monitoring (Sentry) ===
       - key: SENTRY_DSN
-        sync: false  # À définir manuellement dans le dashboard
-      
-      # === Rate Limiting ===
+        sync: false
       - key: RATE_LIMIT_REQUESTS
         value: 100
       - key: RATE_LIMIT_PERIOD
-        value: 60  # secondes
-      
-      # === Logging ===
+        value: 60
       - key: LOG_LEVEL
         value: INFO
     
-    # === Health Check ===
     healthCheckPath: /health
     healthCheckTimeout: 10
     
-    # === Auto-scaling ===
     scaling:
       minInstances: 1
       maxInstances: 3
       targetMemoryPercent: 80
       targetCPUPercent: 70
     
-    # === Disques (pour fichiers uploadés) ===
     disk:
       name: afriflow-data
       mountPath: /data
@@ -91,42 +72,34 @@ services:
     name: afriflow-db
     runtime: postgres
     region: frankfurt
-    plan: starter  # ou: free, pro, pro-plus
-    
-    # Version PostgreSQL
+    plan: starter
     postgresMajorVersion: 15
-    
-    # Configuration de la base
     databaseName: afriflow
     user: afriflow_admin
-    
-    # Sauvegardes automatiques
     backup:
       enabled: true
-      schedule: "0 0 * * *"  # Tous les jours à minuit
+      schedule: "0 0 * * *"
 
   # ==========================================
-  # Cache Redis (Optionnel - pour sessions/rate limiting)
+  # Cache Redis
   # ==========================================
   - type: redis
     name: afriflow-cache
     region: frankfurt
     plan: starter
     maxmemoryPolicy: allkeys-lru
-    ipAllowList: []  # Restreindre à l'API uniquement
+    ipAllowList: []
 
   # ==========================================
-  # Worker pour tâches asynchrones (Optionnel)
+  # Worker pour tâches asynchrones
   # ==========================================
   - type: worker
     name: afriflow-worker
     runtime: python
     region: frankfurt
     plan: starter
-    
     buildCommand: pip install -r requirements.txt
-    startCommand: python scripts/worker.py  # À créer pour les jobs background
-    
+    startCommand: python scripts/worker.py
     envVars:
       - key: DATABASE_URL
         fromDatabase:
@@ -141,19 +114,16 @@ services:
         value: production
 
   # ==========================================
-  # Cron Job pour sauvegardes et rapports
+  # Cron Job pour sauvegardes
   # ==========================================
   - type: cron
     name: afriflow-backup
     runtime: python
     region: frankfurt
     plan: starter
-    
-    schedule: "0 2 * * *"  # 2h du matin
-    
+    schedule: "0 2 * * *"
     buildCommand: pip install -r requirements.txt
     startCommand: python scripts/backup.py
-    
     envVars:
       - key: DATABASE_URL
         fromDatabase:
