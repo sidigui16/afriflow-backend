@@ -150,3 +150,7 @@ envVarGroups:
         value: FCFA
       - key: MOBILE_MONEY_PROVIDERS
         value: orange_money,mtn_money,wave,free_money
+
+
+
+Fix render.yaml format - add separators between services
